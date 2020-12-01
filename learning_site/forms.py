@@ -17,8 +17,8 @@ class SuggestionForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        email = cleaned_data.get['email']
-        verify = cleaned_data.get['verify_email']
+        email = cleaned_data.get('email')
+        verify = cleaned_data.get('verify_email')
 
         if email != verify:
             raise forms.ValidationError("You need to enter the same email in both fields")
