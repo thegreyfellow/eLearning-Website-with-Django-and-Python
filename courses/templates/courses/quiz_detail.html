@@ -22,7 +22,7 @@
         </div>
         <br>
         {% endfor %}
-        {% if user.is_authenticated %}
+        {% if perms.courses.change_question  %}
         <a href="{% url 'edit_question' question_pk=question.pk quiz_pk=step.pk %}"
           class="btn btn-primary mb-2">Edit</a>
         <hr>
@@ -35,8 +35,12 @@
   {% if user.is_authenticated %}
   <div class="container">
     <hr>
+    {% if perms.courses.change_quiz %}
     <a href="{% url 'edit_quiz' course_pk=step.course.pk quiz_pk=step.pk %}" class="btn btn-success">Edit</a>
+    {% endif %}
+    {% if perms.courses.add_question %}
     <a href="{% url 'create_question' quiz_pk=step.pk %}" class="btn btn-secondary">New Multiple Choice Question</a>
+    {% endif %}
   </div>
   {% endif %}
 

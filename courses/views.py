@@ -2,6 +2,7 @@ from itertools import chain
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import permission_required
 
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
@@ -35,6 +36,7 @@ def quiz_detail(request, course_pk, step_pk):
     return render(request, 'courses/quiz_detail.html', {'step':step})
 
 @login_required
+@permission_required('courses.add_quiz', raise_exception=True)
 def quiz_create(request, course_pk):
     course = get_object_or_404(models.Course, pk=course_pk)
     form = forms.QuizForm()
@@ -53,6 +55,7 @@ def quiz_create(request, course_pk):
 
 
 @login_required
+@permission_required('courses.change_quiz', raise_exception=True)
 def quiz_edit(request, course_pk, quiz_pk):
     quiz = get_object_or_404(models.Quiz, pk=quiz_pk, course_id=course_pk)
     form = forms.QuizForm(instance=quiz)
@@ -67,6 +70,7 @@ def quiz_edit(request, course_pk, quiz_pk):
     return render(request, 'courses/quiz_form.html', {'form':form, 'course':quiz.course})
 
 @login_required
+@permission_required('courses.add_question', raise_exception=True)
 def create_question(request, quiz_pk):
     quiz = get_object_or_404(models.Quiz, pk=quiz_pk)
     form_class = forms.MultipleChoiceQuestionForm
@@ -95,6 +99,7 @@ def create_question(request, quiz_pk):
 
 
 @login_required
+@permission_required('courses.change_question', raise_exception=True)
 def edit_question(request, quiz_pk, question_pk):
     question = get_object_or_404(models.Question, pk=question_pk, quiz_id=quiz_pk)
     form_class = forms.MultipleChoiceQuestionForm
@@ -126,6 +131,7 @@ def edit_question(request, quiz_pk, question_pk):
 
 
 @login_required
+@permission_required('courses.add_answer', raise_exception=True)
 def answer_form(request, question_pk):
     question = get_object_or_404(models.Question, pk=question_pk)
     formset = forms.AnswerFormSet(queryset=question.answer_set.all())
