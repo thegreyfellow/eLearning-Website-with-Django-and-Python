@@ -22,15 +22,6 @@ class QuestionForm(forms.ModelForm):
         )
 
 
-class TrueFalseQuestionForm(QuestionForm):
-    class Meta:
-        model = models.TrueFalseQuestion
-        fields = [
-            'order',
-            'prompt',
-        ]
-
-
 class MultipleChoiceQuestionForm(QuestionForm):
     class Meta:
         model = models.MultipleChoiceQuestion

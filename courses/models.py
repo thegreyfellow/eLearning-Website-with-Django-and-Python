@@ -60,9 +60,6 @@ class Question(models.Model):
 class MultipleChoiceQuestion(Question):
     shuffle_answers = models.BooleanField(default=False)
 
-class TrueFalseQuestion(Question):
-    pass
-
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)

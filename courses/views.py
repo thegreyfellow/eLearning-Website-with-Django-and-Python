@@ -67,12 +67,9 @@ def quiz_edit(request, course_pk, quiz_pk):
     return render(request, 'courses/quiz_form.html', {'form':form, 'course':quiz.course})
 
 @login_required
-def create_question(request, quiz_pk, question_type):
+def create_question(request, quiz_pk):
     quiz = get_object_or_404(models.Quiz, pk=quiz_pk)
-    if question_type == 'tf':
-        form_class = forms.TrueFalseQuestionForm
-    else:
-        form_class = forms.MultipleChoiceQuestionForm
+    form_class = forms.MultipleChoiceQuestionForm
 
     form = form_class()
     answer_forms = forms.AnswerInlineFormSet(
@@ -100,12 +97,8 @@ def create_question(request, quiz_pk, question_type):
 @login_required
 def edit_question(request, quiz_pk, question_pk):
     question = get_object_or_404(models.Question, pk=question_pk, quiz_id=quiz_pk)
-    if hasattr(question, 'truefalsequestion'):
-        form_class = forms.TrueFalseQuestionForm
-        question = question.truefalsequestion
-    else:
-        form_class = forms.MultipleChoiceQuestionForm
-        question = question.multiplechoicequestion
+    form_class = forms.MultipleChoiceQuestionForm
+    question = question.multiplechoicequestion
     form = form_class(instance=question)
     answer_forms = forms.AnswerInlineFormSet(
         queryset = form.instance.answer_set.all()
