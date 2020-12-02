@@ -5,18 +5,13 @@ import markdown
 
 register = template.Library()
 
-@register.simple_tag
-def newest_course():
-    ''' Gets the most recent course that was added to the library. '''
-    return Course.objects.latest('created_at')
-# register.simple_tag('newest_course')
 
 @register.inclusion_tag('courses/course_nav.html')
 def nav_courses_list():
     ''' Return dictionary of courses to display as navigation pane '''
     courses = Course.objects.all()
     return {'courses':courses}
-# register.inclusion_tag('courses/course_nav.html')(nav_courses_list)
+
 
 @register.filter('time_estimate')
 def time_estimate(word_count):
