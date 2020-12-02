@@ -14,13 +14,17 @@
     <h1 class="mb-4 text-info">{{step.title}}</h1>
     <ul class="no-bullet">
       {% for question in step.question_set.all %}
-      <li class="col bg-white">
+      <li class="col bg-white question">
         <h2 class="mb-4 text-danger">{{ question.prompt }}</h2>
+
         {% for answer in question.answer_set.all %}
-        <div class="callout border border-muted p-2">
-          {{ answer.text }}
+        <div class="form-check p-2">
+          <input class="form-check-input answer" type="checkbox" data-correct="{{ answer.correct }}"
+            id="answer-{{ answer.pk }}">
+          <label class="form-check-label" for="answer-{{ answer.pk }}">
+            {{ answer.text }}
+          </label>
         </div>
-        <br>
         {% endfor %}
         {% if perms.courses.change_question  %}
         <a href="{% url 'edit_question' question_pk=question.pk quiz_pk=step.pk %}"
@@ -30,6 +34,7 @@
       </li>
       {% endfor %}
     </ul>
+    <button type="button" id="checkScore" class="btn btn-primary mb-2">Check Score!</button>
   </article>
 
   {% if user.is_authenticated %}
@@ -45,4 +50,34 @@
   {% endif %}
 
 </div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+  const checkScoreButton = document.getElementById("checkScore")
+  checkScoreButton.onclick = (e) => {
+    let score = 0
+    const questionElements = document.querySelectorAll('.question')
+    questionElements.forEach(questionElement => {
+      const answerCheckInputs = questionElement.querySelectorAll('.answer')
+
+      const wrongAnswersCount = (
+        Array.from(answerCheckInputs)
+          .map(
+            answerCheckInput => {
+              const correctAnswer = answerCheckInput.dataset.correct === 'True'
+              const inputAnswer = answerCheckInput.checked
+              return inputAnswer === correctAnswer
+            }
+          ).filter(
+            isAnswerCorrect => !isAnswerCorrect
+          ).length
+      )
+
+      if (wrongAnswersCount === 0) score++
+
+    })
+    alert(`Score: ${score}`)
+  }
+</script>
 {% endblock %}
