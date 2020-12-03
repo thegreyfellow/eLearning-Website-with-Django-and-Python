@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^', include('accounts.urls')),
     url(r'^suggest/$', views.suggestion_view, name='suggestion'),
     url(r'^$', views.home, name='home'),
+    url(r'^page_1/$', views.page_1, name='page_1'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

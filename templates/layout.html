@@ -16,7 +16,6 @@
 
 <body>
     <div class="container mt-1">
-        <div>{% nav_courses_list %}</div>
         <ul>
             <li><a href="{% url 'home' %}">Home</a></li>
             {% if request.user.is_authenticated %}
@@ -27,6 +26,7 @@
                 <a href="{% url 'logout' %}"><i class="fas fa-fw fa-sign-out-alt"></i><span>Logout</span></a>
             </li>
             {% else %}
+            <li><a href="{% url 'page_1' %}">Page 1</a></li>
             <li><a href="{% url 'login' %}">Login</a></li>
             <li><a href="{% url 'register' %}">Register</a></li>
             {% endif %}
@@ -35,10 +35,7 @@
         <hr>
         <div class="row mb-4">
             <div class="col-6">
-                <p>Omar's eLearning Site</p>
-            </div>
-            <div class="col-6">
-                <a class="btn btn-info float-right" href="{% url 'course_list' %}">Courses</a>
+                <p>My home school.</p>
             </div>
         </div>
 

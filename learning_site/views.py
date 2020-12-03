@@ -9,6 +9,8 @@ from .import forms
 def home(request):
     return render(request, 'home.html')
 
+def page_1(request):
+    return render(request, 'page_1.html')
 
 def suggestion_view(request):
     form = forms.SuggestionForm()
